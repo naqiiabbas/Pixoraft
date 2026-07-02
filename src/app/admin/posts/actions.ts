@@ -67,6 +67,7 @@ export async function savePost(input: PostInput) {
 
   revalidatePath("/blog");
   revalidatePath(`/blog/${slug}`);
+  revalidatePath("/sitemap.xml");
   redirect("/admin/posts");
 }
 
@@ -74,5 +75,6 @@ export async function deletePost(id: string) {
   const supabase = await createClient();
   await supabase.from("posts").delete().eq("id", id);
   revalidatePath("/blog");
+  revalidatePath("/sitemap.xml");
   redirect("/admin/posts");
 }

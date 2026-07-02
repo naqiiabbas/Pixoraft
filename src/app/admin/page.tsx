@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { FileText, Search, ArrowRight } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
+import { SitemapCard } from "./SitemapCard";
 
 const CARDS = [
   {
@@ -50,6 +51,10 @@ export default async function AdminDashboard() {
             </span>
           </Link>
         ))}
+      </div>
+
+      <div className="mt-6">
+        <SitemapCard />
       </div>
     </div>
   );
