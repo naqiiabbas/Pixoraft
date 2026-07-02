@@ -1,16 +1,14 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { SERVICE_PILLARS } from "@/data/services";
 import { ServiceBackground } from "@/components/ui/ServiceBackground";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { CTASection } from "@/components/sections/CTASection";
+import { resolveMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Services",
-  description:
-    "Four practice areas, one team: engineering, AI and automation, cloud and DevOps, and design and growth. Web platforms, mobile apps, and AI automation built to perform.",
-};
+export function generateMetadata() {
+  return resolveMetadata("/services");
+}
 
 export default function ServicesPage() {
   return (

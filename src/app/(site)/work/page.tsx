@@ -1,15 +1,13 @@
-import type { Metadata } from "next";
 import { CASE_STUDIES } from "@/data/work";
 import { ServiceBackground } from "@/components/ui/ServiceBackground";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { GradientPlaceholder } from "@/components/ui/GradientPlaceholder";
 import { CTASection } from "@/components/sections/CTASection";
+import { resolveMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Work",
-  description:
-    "Selected work from Pixoraft: platforms, apps, and automation built to perform. Measured by results, not screenshots.",
-};
+export function generateMetadata() {
+  return resolveMetadata("/work");
+}
 
 export default function WorkPage() {
   return (

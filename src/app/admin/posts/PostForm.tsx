@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Eye, Pencil, Trash2 } from "lucide-react";
 import type { Post } from "@/lib/posts";
 import { Markdown } from "@/components/ui/Markdown";
-import { ImageUpload } from "./ImageUpload";
+import { ImageUpload } from "@/components/admin/ImageUpload";
 import { savePost, deletePost } from "./actions";
 
 const inputClass =

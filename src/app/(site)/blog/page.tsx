@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
@@ -7,14 +6,13 @@ import { ServiceBackground } from "@/components/ui/ServiceBackground";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { GradientPlaceholder } from "@/components/ui/GradientPlaceholder";
 import { CTASection } from "@/components/sections/CTASection";
+import { resolveMetadata } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: "Blog",
-  description:
-    "Notes on building software that performs: engineering, AI automation, and how we ship. From the Pixoraft team.",
-};
+export function generateMetadata() {
+  return resolveMetadata("/blog");
+}
 
 function formatDate(iso: string | null): string {
   if (!iso) return "";

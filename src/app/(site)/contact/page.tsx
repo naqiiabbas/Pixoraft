@@ -1,14 +1,12 @@
-import type { Metadata } from "next";
 import { ServiceBackground } from "@/components/ui/ServiceBackground";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { ContactForm } from "@/components/forms/ContactForm";
 import { Offices } from "@/components/sections/Offices";
+import { resolveMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Contact",
-  description:
-    "Book a strategy call or send a project inquiry. Pixoraft replies within 24 hours, with offices in the US, UK, and Pakistan.",
-};
+export function generateMetadata() {
+  return resolveMetadata("/contact");
+}
 
 export default function ContactPage() {
   return (

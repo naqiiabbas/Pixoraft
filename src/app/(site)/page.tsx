@@ -4,6 +4,11 @@ import { About } from "@/components/sections/About";
 import { Process } from "@/components/sections/Process";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { FAQ } from "@/components/sections/FAQ";
+import { resolveMetadata } from "@/lib/seo";
+
+export function generateMetadata() {
+  return resolveMetadata("/");
+}
 
 export default function Home() {
   return (
