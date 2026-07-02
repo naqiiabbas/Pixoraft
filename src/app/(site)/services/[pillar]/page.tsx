@@ -25,6 +25,7 @@ export async function generateMetadata({
   return {
     title: pillar.title,
     description: pillar.overview,
+    alternates: { canonical: `/services/${pillar.slug}` },
   };
 }
 

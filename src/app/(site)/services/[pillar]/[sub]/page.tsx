@@ -27,6 +27,7 @@ export async function generateMetadata({
   return {
     title: found.capability.name,
     description: found.capability.description ?? found.capability.tagline,
+    alternates: { canonical: `/services/${pillar}/${sub}` },
   };
 }
 

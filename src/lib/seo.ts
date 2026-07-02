@@ -87,9 +87,11 @@ export async function resolveMetadata(path: string): Promise<Metadata> {
   return {
     title: { absolute: title },
     description,
+    alternates: { canonical: path },
     openGraph: {
       title,
       description,
+      url: path,
       ...(ogImage ? { images: [ogImage] } : {}),
     },
   };
