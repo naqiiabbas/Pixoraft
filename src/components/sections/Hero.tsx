@@ -53,11 +53,6 @@ export function Hero() {
             See the work
           </Link>
         </div>
-
-        <p className="mt-4 font-mono text-xs text-muted sm:text-sm">
-          [ status: accepting new projects for Q3 2026
-          <span className="cursor-blink ml-1 inline-block text-accent">_</span> ]
-        </p>
       </div>
     </section>
   );
