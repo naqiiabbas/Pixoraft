@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 const NAV_LINKS = [
   { label: "Services", href: "/#services" },
@@ -30,13 +31,16 @@ export function Header() {
             : "border-border/60 bg-surface/40"
         }`}
       >
-        {/* Wordmark */}
-        <Link
-          href="/"
-          className="font-display text-xl font-semibold tracking-tight"
-        >
-          <span className="text-foreground">pixo</span>
-          <span className="text-accent">raft</span>
+        {/* Logo */}
+        <Link href="/" aria-label="Pixoraft home" className="flex items-center">
+          <Image
+            src="/pixoraft_logo_header.png"
+            alt="Pixoraft"
+            width={62}
+            height={36}
+            priority
+            className="h-9 w-auto"
+          />
         </Link>
 
         {/* Center links */}
