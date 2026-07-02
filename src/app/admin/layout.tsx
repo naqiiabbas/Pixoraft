@@ -23,6 +23,13 @@ export default async function AdminLayout({
     data: { user },
   } = await supabase.auth.getUser();
 
+  async function signOut() {
+    "use server";
+    const sb = await createClient();
+    await sb.auth.signOut();
+    redirect("/admin/login");
+  }
+
   // Login page renders bare (no chrome). Middleware guards the rest.
   if (!user) {
     return (
@@ -32,11 +39,28 @@ export default async function AdminLayout({
     );
   }
 
-  async function signOut() {
-    "use server";
-    const sb = await createClient();
-    await sb.auth.signOut();
-    redirect("/admin/login");
+  // Only allowlisted admins may use the panel (data is also protected by RLS).
+  const { data: isAdmin } = await supabase.rpc("is_admin");
+  if (isAdmin === false) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-background px-6 text-center">
+        <p className="font-display text-xl font-semibold text-foreground">
+          This account is not an admin.
+        </p>
+        <p className="max-w-sm text-sm text-muted">
+          Ask an existing admin to add your user to the allowlist, then sign in
+          again.
+        </p>
+        <form action={signOut}>
+          <button
+            type="submit"
+            className="rounded-full border border-border px-5 py-2.5 text-sm text-muted hover:text-foreground"
+          >
+            Sign out
+          </button>
+        </form>
+      </div>
+    );
   }
 
   return (

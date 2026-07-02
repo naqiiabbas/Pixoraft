@@ -1,10 +1,10 @@
 import type { MetadataRoute } from "next";
 import { SERVICE_PILLARS } from "@/data/services";
-import { BLOG_POSTS } from "@/data/blog";
+import { getPublishedPosts } from "@/lib/posts";
 
 const BASE = "https://pixoraft.com";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPaths = ["", "/services", "/blog", "/contact"];
 
   const pillarPaths = SERVICE_PILLARS.map((p) => `/services/${p.slug}`);
@@ -13,11 +13,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
     p.capabilities.map((c) => `/services/${p.slug}/${c.slug}`),
   );
 
-  const blogPaths = BLOG_POSTS.map((p) => `/blog/${p.slug}`);
+  let blogPaths: string[] = [];
+  try {
+    const posts = await getPublishedPosts();
+    blogPaths = posts.map((p) => `/blog/${p.slug}`);
+  } catch {
+    // If Supabase is unreachable at build, ship the sitemap without posts.
+    blogPaths = [];
+  }
 
-  return [...staticPaths, ...pillarPaths, ...subPaths, ...blogPaths].map((path) => ({
-    url: `${BASE}${path}`,
-    changeFrequency: "monthly",
-    priority: path === "" ? 1 : 0.7,
-  }));
+  return [...staticPaths, ...pillarPaths, ...subPaths, ...blogPaths].map(
+    (path) => ({
+      url: `${BASE}${path}`,
+      changeFrequency: "monthly",
+      priority: path === "" ? 1 : 0.7,
+    }),
+  );
 }

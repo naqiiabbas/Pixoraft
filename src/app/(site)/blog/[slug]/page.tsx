@@ -1,19 +1,31 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ArrowUpRight, ArrowLeft } from "lucide-react";
-import { BLOG_POSTS, getPost, formatDate, type BlogBlock } from "@/data/blog";
+import {
+  getPublishedPostBySlug,
+  getPublishedPosts,
+  initialsFromTitle,
+} from "@/lib/posts";
 import { ServiceBackground } from "@/components/ui/ServiceBackground";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { GradientPlaceholder } from "@/components/ui/GradientPlaceholder";
-import { CodeWindow } from "@/components/ui/CodeWindow";
+import { Markdown } from "@/components/ui/Markdown";
 import { CTASection } from "@/components/sections/CTASection";
 import { buildArticleJsonLd } from "@/lib/schema";
 
+export const dynamic = "force-dynamic";
+
 type Params = { slug: string };
 
-export function generateStaticParams() {
-  return BLOG_POSTS.map((p) => ({ slug: p.slug }));
+function formatDate(iso: string | null): string {
+  if (!iso) return "";
+  return new Date(iso).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
 }
 
 export async function generateMetadata({
@@ -22,49 +34,17 @@ export async function generateMetadata({
   params: Promise<Params>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPost(slug);
+  const post = await getPublishedPostBySlug(slug);
   if (!post) return {};
   return {
-    title: post.title,
-    description: post.excerpt,
-    openGraph: { type: "article", publishedTime: post.date },
+    title: post.meta_title || post.title,
+    description: post.meta_description || post.excerpt || undefined,
+    openGraph: {
+      type: "article",
+      publishedTime: post.published_at ?? undefined,
+      images: post.og_image ? [post.og_image] : undefined,
+    },
   };
-}
-
-function Block({ block, accent }: { block: BlogBlock; accent: string }) {
-  switch (block.type) {
-    case "heading":
-      return (
-        <h2 className="mt-10 font-display text-2xl font-semibold text-foreground">
-          {block.text}
-        </h2>
-      );
-    case "paragraph":
-      return <p className="mt-5 leading-relaxed text-muted">{block.text}</p>;
-    case "list":
-      return (
-        <ul className="mt-5 space-y-2">
-          {block.items.map((item) => (
-            <li key={item} className="flex items-start gap-3 text-muted">
-              <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
-              {item}
-            </li>
-          ))}
-        </ul>
-      );
-    case "code":
-      return (
-        <div className="mt-8">
-          <CodeWindow
-            filename={block.filename}
-            snippet={block.snippet}
-            accent={accent}
-          />
-        </div>
-      );
-    default:
-      return null;
-  }
 }
 
 export default async function BlogPostPage({
@@ -73,15 +53,17 @@ export default async function BlogPostPage({
   params: Promise<Params>;
 }) {
   const { slug } = await params;
-  const post = getPost(slug);
+  const post = await getPublishedPostBySlug(slug);
   if (!post) notFound();
 
-  const related = BLOG_POSTS.filter((p) => p.slug !== post.slug).slice(0, 2);
+  const all = await getPublishedPosts();
+  const related = all.filter((p) => p.slug !== post.slug).slice(0, 2);
+
   const jsonLd = buildArticleJsonLd({
     slug: post.slug,
     title: post.title,
-    excerpt: post.excerpt,
-    date: post.date,
+    excerpt: post.excerpt ?? "",
+    date: post.published_at ?? post.created_at,
   });
 
   return (
@@ -102,35 +84,52 @@ export default async function BlogPostPage({
           ]}
         />
 
-        {/* Article header */}
         <header className="mt-10">
           <div className="flex flex-wrap items-center gap-3 font-mono text-xs text-faint">
-            <span className="text-accent">[ {post.category.toLowerCase()} ]</span>
-            <span>{formatDate(post.date)}</span>
-            <span>{post.readingTime}</span>
+            {post.category && (
+              <span className="text-accent">[ {post.category.toLowerCase()} ]</span>
+            )}
+            <span>{formatDate(post.published_at ?? post.created_at)}</span>
+            {post.reading_time && <span>{post.reading_time}</span>}
           </div>
           <h1 className="mt-4 font-display text-3xl font-semibold tracking-tight sm:text-4xl">
             {post.title}
           </h1>
-          <p className="mt-4 text-lg text-muted">{post.excerpt}</p>
-          <p className="mt-6 text-sm text-faint">
-            By {post.author.name}, {post.author.role}
-          </p>
+          {post.excerpt && (
+            <p className="mt-4 text-lg text-muted">{post.excerpt}</p>
+          )}
+          {post.author && (
+            <p className="mt-6 text-sm text-faint">By {post.author}</p>
+          )}
         </header>
 
         {/* Cover */}
         <div className="mt-10">
-          <GradientPlaceholder initials={post.initials} index={0} />
+          {post.cover_image ? (
+            <div className="relative aspect-[16/9] overflow-hidden rounded-xl border border-white/10">
+              <Image
+                src={post.cover_image}
+                alt={post.title}
+                fill
+                sizes="(max-width: 768px) 100vw, 768px"
+                className="object-cover"
+                priority
+              />
+            </div>
+          ) : (
+            <GradientPlaceholder initials={initialsFromTitle(post.title)} index={0} />
+          )}
         </div>
 
         {/* Body */}
-        <div className="mt-4">
-          {post.body.map((block, i) => (
-            <Block key={i} block={block} accent={post.accent} />
-          ))}
-        </div>
+        <article className="mt-8">
+          {post.content ? (
+            <Markdown content={post.content} />
+          ) : (
+            <p className="text-muted">This post has no content yet.</p>
+          )}
+        </article>
 
-        {/* Back link */}
         <Link
           href="/blog"
           className="mt-12 inline-flex items-center gap-2 text-sm font-medium text-accent transition-colors hover:text-accent-strong"
@@ -139,7 +138,6 @@ export default async function BlogPostPage({
           All posts
         </Link>
 
-        {/* Related */}
         {related.length > 0 && (
           <section aria-labelledby="related-posts" className="mt-16">
             <h2
@@ -159,9 +157,11 @@ export default async function BlogPostPage({
                     <span className="block truncate font-medium text-foreground">
                       {r.title}
                     </span>
-                    <span className="mt-0.5 block font-mono text-xs text-faint">
-                      {r.readingTime}
-                    </span>
+                    {r.reading_time && (
+                      <span className="mt-0.5 block font-mono text-xs text-faint">
+                        {r.reading_time}
+                      </span>
+                    )}
                   </span>
                   <ArrowUpRight className="h-5 w-5 shrink-0 text-faint transition-colors group-hover:text-accent" />
                 </Link>
