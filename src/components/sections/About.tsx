@@ -21,7 +21,7 @@ export function About() {
       </div>
 
       <div className="relative z-10 mx-auto max-w-6xl px-6">
-        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+        <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-16">
           {/* Left: positioning copy + stats */}
           <motion.div
             variants={stagger}
