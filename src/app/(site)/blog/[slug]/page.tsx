@@ -36,16 +36,20 @@ export async function generateMetadata({
   const { slug } = await params;
   const post = await getPublishedPostBySlug(slug);
   if (!post) return {};
+  const openGraph: NonNullable<Metadata["openGraph"]> = {
+    type: "article",
+    url: `/blog/${post.slug}`,
+    publishedTime: post.published_at ?? undefined,
+  };
+  // Only pin an explicit image when the author uploaded one. Otherwise the
+  // route's opengraph-image.tsx auto-generates a branded card from the title.
+  if (post.og_image) openGraph.images = [post.og_image];
+
   return {
     title: post.meta_title || post.title,
     description: post.meta_description || post.excerpt || undefined,
     alternates: { canonical: `/blog/${post.slug}` },
-    openGraph: {
-      type: "article",
-      url: `/blog/${post.slug}`,
-      publishedTime: post.published_at ?? undefined,
-      images: post.og_image ? [post.og_image] : undefined,
-    },
+    openGraph,
   };
 }
 
