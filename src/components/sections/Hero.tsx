@@ -7,28 +7,27 @@ export function Hero() {
       aria-labelledby="hero-heading"
       className="relative flex h-screen min-h-[640px] w-full items-center justify-center overflow-hidden"
     >
-      {/* Background: React Bits FloatingLines (WebGL) */}
-      <div className="absolute inset-0 -z-10" aria-hidden="true">
+      {/* Background: React Bits FloatingLines (WebGL). Sits at z-0 so the
+          canvas receives pointer events across the whole hero. */}
+      <div className="absolute inset-0 z-0" aria-hidden="true">
         <FloatingLines
           enabledWaves={["top", "middle", "bottom"]}
           lineCount={[10, 15, 20]}
-          lineDistance={[8, 6, 4]}
-          bendRadius={5.0}
+          lineDistance={10}
+          bendRadius={6.5}
           bendStrength={-0.5}
           interactive={true}
           parallax={true}
-          linesGradient={["#00a0ff", "#5b8cff", "#8b5cf6"]}
+          // gradientStart / gradientMid / gradientEnd map to linesGradient
+          linesGradient={["#00a0ff", "#04334f", "#507083"]}
         />
         {/* Legibility overlay: keep copy readable over the animation */}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-background/40 via-background/20 to-background" />
       </div>
 
-      {/* Foreground content */}
-      <div className="mx-auto flex max-w-3xl flex-col items-center gap-6 px-6 text-center">
-        <p className="font-mono text-xs text-accent sm:text-sm">
-          [ digital engineering studio / islamabad + london + phoenix ]
-        </p>
-
+      {/* Foreground content. pointer-events-none lets mouse movement pass
+          through to the canvas below; buttons re-enable pointer events. */}
+      <div className="pointer-events-none relative z-10 mx-auto flex max-w-3xl flex-col items-center gap-6 px-6 text-center">
         <h1
           id="hero-heading"
           className="font-display text-4xl font-semibold leading-[1.1] tracking-tight text-foreground sm:text-5xl md:text-6xl"
@@ -41,7 +40,7 @@ export function Hero() {
           AI automation for businesses in Pakistan, the UK, and the US.
         </p>
 
-        <div className="mt-2 flex flex-col gap-3 sm:flex-row">
+        <div className="pointer-events-auto mt-2 flex flex-col gap-3 sm:flex-row">
           <Link
             href="/contact"
             className="rounded-full bg-accent px-6 py-3 text-sm font-semibold text-accent-contrast transition-colors hover:bg-accent-strong"
