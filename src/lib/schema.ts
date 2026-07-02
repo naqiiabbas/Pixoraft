@@ -49,6 +49,33 @@ export function buildOrganizationJsonLd(input: {
   };
 }
 
+export function buildArticleJsonLd(input: {
+  slug: string;
+  title: string;
+  excerpt: string;
+  date: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: input.title,
+    description: input.excerpt,
+    datePublished: input.date,
+    dateModified: input.date,
+    mainEntityOfPage: `${SITE_URL}/blog/${input.slug}`,
+    image: `${SITE_URL}/opengraph-image`,
+    author: { "@type": "Organization", name: "Pixoraft", url: SITE_URL },
+    publisher: {
+      "@type": "Organization",
+      name: "Pixoraft",
+      logo: {
+        "@type": "ImageObject",
+        url: `${SITE_URL}/pixoraft_favicon.png`,
+      },
+    },
+  };
+}
+
 export interface BreadcrumbCrumb {
   label: string;
   href?: string;

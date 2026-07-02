@@ -8,6 +8,7 @@ const YEAR = 2026;
 
 const COMPANY_LINKS = [
   { label: "Services", href: "/services" },
+  { label: "Blog", href: "/blog" },
   { label: "Contact", href: "/contact" },
   { label: "Process", href: "/#process" },
   { label: "FAQ", href: "/#faq" },

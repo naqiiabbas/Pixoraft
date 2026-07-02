@@ -8,9 +8,10 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 
 const NAV_LINKS = [
   { label: "Services", href: "/services" },
-  { label: "Contact", href: "/contact" },
+  { label: "Blog", href: "/blog" },
   { label: "Process", href: "/#process" },
   { label: "FAQ", href: "/#faq" },
+  { label: "Contact", href: "/contact" },
 ] as const;
 
 export function Header() {
