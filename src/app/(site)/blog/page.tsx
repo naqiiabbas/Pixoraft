@@ -10,8 +10,15 @@ import { resolveMetadata } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
-export function generateMetadata() {
-  return resolveMetadata("/blog");
+export async function generateMetadata() {
+  const meta = await resolveMetadata("/blog");
+  return {
+    ...meta,
+    alternates: {
+      ...meta.alternates,
+      types: { "application/rss+xml": "/blog/rss.xml" },
+    },
+  };
 }
 
 function formatDate(iso: string | null): string {

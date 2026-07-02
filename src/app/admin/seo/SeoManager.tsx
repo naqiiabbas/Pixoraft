@@ -20,6 +20,7 @@ function PageRow({
   const [title, setTitle] = useState(existing?.title ?? "");
   const [description, setDescription] = useState(existing?.description ?? "");
   const [ogImage, setOgImage] = useState(existing?.og_image ?? "");
+  const [noindex, setNoindex] = useState(existing?.noindex ?? false);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -33,6 +34,7 @@ function PageRow({
       title,
       description,
       og_image: ogImage,
+      noindex,
     });
     setSaving(false);
     if (res.ok) {
@@ -94,6 +96,17 @@ function PageRow({
           <p className="text-xs text-faint">
             Leave blank to use the default shown as placeholder.
           </p>
+          <label className="flex items-center gap-3">
+            <input
+              type="checkbox"
+              checked={noindex}
+              onChange={(e) => setNoindex(e.target.checked)}
+              className="h-4 w-4 accent-[color:var(--accent)]"
+            />
+            <span className="text-sm text-muted">
+              Hide from search engines (noindex)
+            </span>
+          </label>
         </div>
         <ImageUpload
           label="OpenGraph image"

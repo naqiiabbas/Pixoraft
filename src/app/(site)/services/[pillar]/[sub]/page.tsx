@@ -7,6 +7,7 @@ import { ServiceBackground } from "@/components/ui/ServiceBackground";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { CodeWindow } from "@/components/ui/CodeWindow";
 import { CTASection } from "@/components/sections/CTASection";
+import { buildServiceJsonLd } from "@/lib/schema";
 
 type Params = { pillar: string; sub: string };
 
@@ -44,10 +45,19 @@ export default async function SubServicePage({
   const siblings = pillar.capabilities.filter((c) => c.slug !== capability.slug);
   const whatWeBuild = capability.whatWeBuild ?? [];
   const outcomes = capability.outcomes ?? [];
+  const serviceJsonLd = buildServiceJsonLd({
+    name: capability.name,
+    description: capability.description ?? capability.tagline,
+    path: `/services/${pillar.slug}/${capability.slug}`,
+  });
 
   return (
     <main className="relative flex-1">
       <ServiceBackground />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }}
+      />
 
       <div className="relative z-10 mx-auto max-w-6xl px-6 pb-24 pt-32">
         <Breadcrumb

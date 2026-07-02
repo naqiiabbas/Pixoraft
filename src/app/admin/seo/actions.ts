@@ -8,6 +8,7 @@ export interface PageSeoInput {
   title: string;
   description: string;
   og_image: string;
+  noindex: boolean;
 }
 
 export async function savePageSeo(input: PageSeoInput) {
@@ -19,6 +20,7 @@ export async function savePageSeo(input: PageSeoInput) {
       title: input.title || null,
       description: input.description || null,
       og_image: input.og_image || null,
+      noindex: input.noindex,
       updated_at: new Date().toISOString(),
     },
     { onConflict: "path" },

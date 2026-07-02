@@ -54,6 +54,8 @@ export function buildArticleJsonLd(input: {
   title: string;
   excerpt: string;
   date: string;
+  updated?: string;
+  author?: string;
 }) {
   return {
     "@context": "https://schema.org",
@@ -61,10 +63,13 @@ export function buildArticleJsonLd(input: {
     headline: input.title,
     description: input.excerpt,
     datePublished: input.date,
-    dateModified: input.date,
+    dateModified: input.updated ?? input.date,
     mainEntityOfPage: `${SITE_URL}/blog/${input.slug}`,
-    image: `${SITE_URL}/opengraph-image`,
-    author: { "@type": "Organization", name: "Pixoraft", url: SITE_URL },
+    image: `${SITE_URL}/blog/${input.slug}/opengraph-image`,
+    author: {
+      "@type": "Person",
+      name: input.author || "Pixoraft Team",
+    },
     publisher: {
       "@type": "Organization",
       name: "Pixoraft",
@@ -73,6 +78,41 @@ export function buildArticleJsonLd(input: {
         url: `${SITE_URL}/pixoraft_favicon.png`,
       },
     },
+  };
+}
+
+export function buildWebsiteJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Pixoraft",
+    url: SITE_URL,
+    publisher: { "@type": "Organization", name: "Pixoraft", url: SITE_URL },
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${SITE_URL}/search?q={search_term_string}`,
+      },
+      "query-input": "required name=search_term_string",
+    },
+  };
+}
+
+export function buildServiceJsonLd(input: {
+  name: string;
+  description: string;
+  path: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: input.name,
+    serviceType: input.name,
+    description: input.description,
+    url: `${SITE_URL}${input.path}`,
+    provider: { "@type": "Organization", name: "Pixoraft", url: SITE_URL },
+    areaServed: ["PK", "GB", "US"],
   };
 }
 

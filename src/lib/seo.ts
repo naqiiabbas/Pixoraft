@@ -6,6 +6,7 @@ export interface PageSeo {
   title: string | null;
   description: string | null;
   og_image: string | null;
+  noindex?: boolean | null;
   updated_at?: string;
 }
 
@@ -88,6 +89,7 @@ export async function resolveMetadata(path: string): Promise<Metadata> {
     title: { absolute: title },
     description,
     alternates: { canonical: path },
+    ...(seo?.noindex ? { robots: { index: false, follow: true } } : {}),
     openGraph: {
       title,
       description,

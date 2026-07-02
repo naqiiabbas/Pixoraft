@@ -70,6 +70,8 @@ export default async function BlogPostPage({
     title: post.title,
     excerpt: post.excerpt ?? "",
     date: post.published_at ?? post.created_at,
+    updated: post.updated_at,
+    author: post.author ?? undefined,
   });
 
   return (

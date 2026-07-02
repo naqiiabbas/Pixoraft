@@ -8,25 +8,32 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPaths = ["", "/services", "/blog", "/contact"];
 
   const pillarPaths = SERVICE_PILLARS.map((p) => `/services/${p.slug}`);
-
   const subPaths = SERVICE_PILLARS.flatMap((p) =>
     p.capabilities.map((c) => `/services/${p.slug}/${c.slug}`),
   );
 
-  let blogPaths: string[] = [];
+  const pageEntries: MetadataRoute.Sitemap = [
+    ...staticPaths,
+    ...pillarPaths,
+    ...subPaths,
+  ].map((path) => ({
+    url: `${BASE}${path}`,
+    changeFrequency: "monthly",
+    priority: path === "" ? 1 : 0.7,
+  }));
+
+  let postEntries: MetadataRoute.Sitemap = [];
   try {
     const posts = await getPublishedPosts();
-    blogPaths = posts.map((p) => `/blog/${p.slug}`);
+    postEntries = posts.map((p) => ({
+      url: `${BASE}/blog/${p.slug}`,
+      lastModified: new Date(p.updated_at),
+      changeFrequency: "weekly",
+      priority: 0.6,
+    }));
   } catch {
-    // If Supabase is unreachable at build, ship the sitemap without posts.
-    blogPaths = [];
+    postEntries = [];
   }
 
-  return [...staticPaths, ...pillarPaths, ...subPaths, ...blogPaths].map(
-    (path) => ({
-      url: `${BASE}${path}`,
-      changeFrequency: "monthly",
-      priority: path === "" ? 1 : 0.7,
-    }),
-  );
+  return [...pageEntries, ...postEntries];
 }
