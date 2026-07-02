@@ -21,6 +21,16 @@ export interface PhoneContact {
   whatsapp?: string;
 }
 
+export interface Office {
+  id: "usa" | "uk" | "pk";
+  label: string;
+  region: string;
+  addressLines: string[];
+  phoneDisplay: string;
+  tel: string;
+  whatsapp?: string;
+}
+
 export interface SiteConfig {
   name: string;
   description: string;
@@ -28,6 +38,40 @@ export interface SiteConfig {
   socials: SocialLink[];
   phones: PhoneContact[];
 }
+
+/** Offices in switch order. USA is the default (shown first). */
+export const OFFICES: Office[] = [
+  {
+    id: "usa",
+    label: "United States",
+    region: "Phoenix HQ",
+    addressLines: ["101 North First Avenue", "Suite 2325", "Phoenix, AZ 85003", "USA"],
+    phoneDisplay: "+1 520 848 3966",
+    tel: "+15208483966",
+  },
+  {
+    id: "uk",
+    label: "United Kingdom",
+    region: "Birmingham",
+    addressLines: ["3rd Floor, 10 Livery St", "Birmingham B3 2NU", "United Kingdom"],
+    phoneDisplay: "+44 7877 809492",
+    tel: "+447877809492",
+    whatsapp: "447877809492",
+  },
+  {
+    id: "pk",
+    label: "Pakistan",
+    region: "Islamabad",
+    addressLines: [
+      "Office No 12, Business Square",
+      "Gulberg Greens",
+      "Islamabad, 44000",
+      "Pakistan",
+    ],
+    phoneDisplay: "+92 346 1513212",
+    tel: "+923461513212",
+  },
+];
 
 export const SITE: SiteConfig = {
   name: "Pixoraft",
