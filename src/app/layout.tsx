@@ -2,17 +2,6 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
-import { SITE, OFFICES } from "@/data/site";
-import { buildOrganizationJsonLd } from "@/lib/schema";
-
-const organizationJsonLd = buildOrganizationJsonLd({
-  socials: SITE.socials.map((s) => s.href),
-  offices: OFFICES.map((o) => ({ addressLines: o.addressLines })),
-  email: SITE.email,
-  phone: SITE.phones[0].display,
-});
 
 /**
  * FONTS
@@ -80,15 +69,7 @@ export default function RootLayout({
       className={`${fontGoogleSans.variable} ${fontDisplay.variable} ${fontMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground font-sans">
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(organizationJsonLd),
-          }}
-        />
-        <Header />
         {children}
-        <Footer />
       </body>
     </html>
   );
