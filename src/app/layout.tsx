@@ -1,26 +1,30 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
+import { Google_Sans_Flex, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import { Header } from "@/components/layout/Header";
 
 /**
- * PLACEHOLDER FONTS (TODO-CONFIRM): The final type direction is supplied by the
- * project owner before build. These next/font/google faces are self-hosted at
- * build time (no runtime CDN request) and stand in until the real faces land.
- * Swap the imports here only; components reference the CSS variables below.
- *   --font-display : headings / wordmark
- *   --font-sans    : body copy
- *   --font-mono    : the "system readout" signature motif
+ * FONTS
+ * Google Sans Flex is the global typeface (display + body), per the owner's
+ * direction. It is a variable font, self-hosted at build time by next/font
+ * (no runtime CDN request). JetBrains Mono is kept only for the "system
+ * readout" signature motif (bracketed status lines).
+ *   --font-display : headings / wordmark  (Google Sans Flex)
+ *   --font-sans    : body copy            (Google Sans Flex)
+ *   --font-mono    : readout accents      (JetBrains Mono)
  */
-const fontDisplay = Space_Grotesk({
-  variable: "--font-display",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const fontSans = Inter({
+const fontGoogleSans = Google_Sans_Flex({
   variable: "--font-sans",
   subsets: ["latin"],
   display: "swap",
+  adjustFontFallback: false,
+});
+
+const fontDisplay = Google_Sans_Flex({
+  variable: "--font-display",
+  subsets: ["latin"],
+  display: "swap",
+  adjustFontFallback: false,
 });
 
 const fontMono = JetBrains_Mono({
@@ -57,9 +61,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${fontDisplay.variable} ${fontSans.variable} ${fontMono.variable} h-full antialiased`}
+      className={`${fontGoogleSans.variable} ${fontDisplay.variable} ${fontMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground font-sans">
+        <Header />
         {children}
       </body>
     </html>
