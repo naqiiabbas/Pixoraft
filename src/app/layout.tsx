@@ -1,30 +1,36 @@
 import type { Metadata } from "next";
-import { Google_Sans_Flex, JetBrains_Mono } from "next/font/google";
+import localFont from "next/font/local";
+import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 
 /**
  * FONTS
  * Google Sans Flex is the global typeface (display + body), per the owner's
- * direction. It is a variable font, self-hosted at build time by next/font
- * (no runtime CDN request). JetBrains Mono is kept only for the "system
- * readout" signature motif (bracketed status lines).
+ * direction. It is self-hosted from a local variable woff2 (latin subset) via
+ * next/font/local. Loading it locally avoids the Google font loader's fallback
+ * metric lookup, which has no data for this newer face and warns at build time.
+ * JetBrains Mono is kept only for the "system readout" motif.
  *   --font-display : headings / wordmark  (Google Sans Flex)
  *   --font-sans    : body copy            (Google Sans Flex)
  *   --font-mono    : readout accents      (JetBrains Mono)
  */
-const fontGoogleSans = Google_Sans_Flex({
+const fontGoogleSans = localFont({
+  src: "./fonts/GoogleSansFlex-latin.woff2",
   variable: "--font-sans",
-  subsets: ["latin"],
   display: "swap",
-  adjustFontFallback: false,
+  weight: "1 1000",
+  style: "normal",
+  fallback: ["system-ui", "arial"],
 });
 
-const fontDisplay = Google_Sans_Flex({
+const fontDisplay = localFont({
+  src: "./fonts/GoogleSansFlex-latin.woff2",
   variable: "--font-display",
-  subsets: ["latin"],
   display: "swap",
-  adjustFontFallback: false,
+  weight: "1 1000",
+  style: "normal",
+  fallback: ["system-ui", "arial"],
 });
 
 const fontMono = JetBrains_Mono({
