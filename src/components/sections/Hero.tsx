@@ -48,7 +48,7 @@ export function Hero() {
           </Link>
           <Link
             href="/work"
-            className="rounded-full border border-border-strong px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:border-accent hover:text-accent"
+            className="rounded-full border border-white/20 bg-white/5 px-6 py-3 text-sm font-semibold text-foreground backdrop-blur-md transition-all hover:border-white/40 hover:bg-white/20 hover:shadow-lg hover:shadow-black/20"
           >
             See the work
           </Link>

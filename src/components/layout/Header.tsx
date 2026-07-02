@@ -73,7 +73,7 @@ export function Header() {
           <div className="flex flex-1 justify-end">
             <Link
               href="/contact"
-              className="rounded-full border border-border-strong px-4 py-2 text-sm font-medium text-foreground transition-colors hover:border-accent hover:bg-accent hover:text-accent-contrast"
+              className="rounded-full border border-white/20 bg-white/5 px-4 py-2 text-sm font-medium text-foreground backdrop-blur-md transition-all hover:border-white/40 hover:bg-white/20 hover:shadow-lg hover:shadow-black/20"
             >
               Book a call
             </Link>
