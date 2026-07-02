@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { CheckCircle2 } from "lucide-react";
+import { ThemedSelect } from "@/components/ui/Select";
 
 const BUDGET_OPTIONS = [
   "Under $5k",
@@ -41,6 +42,7 @@ export function ContactForm() {
 
   const {
     register,
+    control,
     handleSubmit,
     setValue,
     formState: { errors, isSubmitting },
@@ -154,22 +156,21 @@ export function ContactForm() {
           <label htmlFor="budget" className={labelClass}>
             Budget range
           </label>
-          <select
-            id="budget"
-            className={fieldClass}
-            aria-invalid={!!errors.budget}
-            defaultValue=""
-            {...register("budget")}
-          >
-            <option value="" disabled>
-              Select a range
-            </option>
-            {BUDGET_OPTIONS.map((b) => (
-              <option key={b} value={b} className="bg-surface">
-                {b}
-              </option>
-            ))}
-          </select>
+          <Controller
+            control={control}
+            name="budget"
+            render={({ field }) => (
+              <ThemedSelect
+                id="budget"
+                value={field.value}
+                onChange={field.onChange}
+                onBlur={field.onBlur}
+                options={BUDGET_OPTIONS.map((b) => ({ value: b, label: b }))}
+                placeholder="Select a range"
+                invalid={!!errors.budget}
+              />
+            )}
+          />
           {errors.budget && <p className={errorClass}>{errors.budget.message}</p>}
         </div>
 
@@ -177,22 +178,24 @@ export function ContactForm() {
           <label htmlFor="model" className={labelClass}>
             Engagement model
           </label>
-          <select
-            id="model"
-            className={fieldClass}
-            aria-invalid={!!errors.model}
-            defaultValue=""
-            {...register("model")}
-          >
-            <option value="" disabled>
-              Select a model
-            </option>
-            {MODEL_OPTIONS.map((m) => (
-              <option key={m.value} value={m.value} className="bg-surface">
-                {m.label}
-              </option>
-            ))}
-          </select>
+          <Controller
+            control={control}
+            name="model"
+            render={({ field }) => (
+              <ThemedSelect
+                id="model"
+                value={field.value}
+                onChange={field.onChange}
+                onBlur={field.onBlur}
+                options={MODEL_OPTIONS.map((m) => ({
+                  value: m.value,
+                  label: m.label,
+                }))}
+                placeholder="Select a model"
+                invalid={!!errors.model}
+              />
+            )}
+          />
           {errors.model && <p className={errorClass}>{errors.model.message}</p>}
         </div>
 
