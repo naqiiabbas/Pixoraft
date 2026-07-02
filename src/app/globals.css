@@ -71,6 +71,46 @@
   --font-mono: var(--font-mono), ui-monospace, monospace;
 }
 
+/* Header glass glare: a light sheen enters at the left fully opaque, then
+   sweeps right while fading out. Runs on a slow loop. */
+@keyframes header-glare {
+  0% {
+    transform: translateX(-60%) skewX(-18deg);
+    opacity: 1;
+  }
+  60% {
+    transform: translateX(260%) skewX(-18deg);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(260%) skewX(-18deg);
+    opacity: 0;
+  }
+}
+
+.header-glare {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 45%;
+  pointer-events: none;
+  background: linear-gradient(
+    100deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.5) 50%,
+    transparent 100%
+  );
+  transform: translateX(-60%) skewX(-18deg);
+  animation: header-glare 5.5s ease-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header-glare {
+    display: none;
+  }
+}
+
 /* Signature terminal cursor blink (readout motif) */
 @keyframes cursor-blink {
   0%,
