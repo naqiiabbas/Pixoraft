@@ -119,7 +119,7 @@ export function FAQ() {
                         }}
                         className="overflow-hidden"
                       >
-                        <p className="px-6 pb-6 pl-16 text-muted">
+                        <p className="px-6 pb-6 text-muted sm:pl-16">
                           {item.answer}
                         </p>
                       </motion.div>

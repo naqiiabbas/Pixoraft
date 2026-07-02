@@ -5,7 +5,7 @@ export function Hero() {
   return (
     <section
       aria-labelledby="hero-heading"
-      className="relative flex h-screen min-h-[640px] w-full items-center justify-center overflow-hidden"
+      className="relative flex min-h-[100svh] w-full items-center justify-center overflow-hidden py-28 sm:py-24"
     >
       {/* Background: React Bits FloatingLines (WebGL). Sits at z-0 so the
           canvas receives pointer events across the whole hero. */}
@@ -39,16 +39,16 @@ export function Hero() {
           AI automation for businesses in Pakistan, the UK, and the US.
         </p>
 
-        <div className="pointer-events-auto mt-2 flex flex-col gap-3 sm:flex-row">
+        <div className="pointer-events-auto mt-2 flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
           <Link
             href="/contact"
-            className="rounded-full bg-accent px-6 py-3 text-sm font-semibold text-accent-contrast transition-colors hover:bg-accent-strong"
+            className="rounded-full bg-accent px-6 py-3 text-center text-sm font-semibold text-accent-contrast transition-colors hover:bg-accent-strong"
           >
             Book a strategy call
           </Link>
           <Link
             href="/services"
-            className="rounded-full border border-white/20 bg-white/5 px-6 py-3 text-sm font-semibold text-foreground backdrop-blur-md transition-all hover:border-white/40 hover:bg-white/20 hover:shadow-lg hover:shadow-black/20"
+            className="rounded-full border border-white/20 bg-white/5 px-6 py-3 text-center text-sm font-semibold text-foreground backdrop-blur-md transition-all hover:border-white/40 hover:bg-white/20 hover:shadow-lg hover:shadow-black/20"
           >
             Explore services
           </Link>
