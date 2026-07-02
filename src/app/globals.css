@@ -35,6 +35,14 @@
   /* Focus ring */
   --ring: #5b8cff;
 
+  /* Code window syntax tokens (blue/cyan family, matches the theme) */
+  --code-key: #79a0ff;
+  --code-fn: #4dc9ff;
+  --code-str: #63d6c2;
+  --code-num: #4dc9ff;
+  --code-com: #5b6675;
+  --code-plain: #c7d0dd;
+
   /* Radii */
   --radius-sm: 0.375rem;
   --radius-md: 0.625rem;
@@ -173,6 +181,37 @@
   .section-glow-c {
     animation: none;
   }
+}
+
+/* Blue gradient glow behind the About stat card */
+.stat-glow {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 160, 255, 0.45) 0%,
+    rgba(34, 88, 121, 0.3) 45%,
+    transparent 80%
+  );
+  filter: blur(40px);
+}
+
+/* Code window syntax token colors */
+.code-key {
+  color: var(--code-key);
+}
+.code-fn {
+  color: var(--code-fn);
+}
+.code-str {
+  color: var(--code-str);
+}
+.code-num {
+  color: var(--code-num);
+}
+.code-com {
+  color: var(--code-com);
+}
+.code-plain {
+  color: var(--code-plain);
 }
 
 /* Signature terminal cursor blink (readout motif) */
