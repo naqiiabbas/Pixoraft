@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
@@ -34,12 +35,16 @@ export default function AdminLoginPage() {
 
   return (
     <div className="w-full max-w-sm rounded-2xl border border-border bg-surface p-8">
-      <div className="text-center">
-        <span className="font-display text-2xl font-semibold">
-          <span className="text-foreground">pixo</span>
-          <span className="text-accent">raft</span>
-        </span>
-        <p className="mt-1 font-mono text-xs text-faint">[ admin sign in ]</p>
+      <div className="flex flex-col items-center text-center">
+        <Image
+          src="/pixoraft_logo_header.png"
+          alt="Pixoraft"
+          width={62}
+          height={36}
+          priority
+          className="h-10 w-auto"
+        />
+        <p className="mt-3 font-mono text-xs text-faint">[ admin sign in ]</p>
       </div>
 
       <form onSubmit={onSubmit} className="mt-8 space-y-4">

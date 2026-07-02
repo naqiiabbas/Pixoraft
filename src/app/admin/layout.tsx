@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { redirect } from "next/navigation";
 import { LogOut, LayoutDashboard, FileText, Search, ExternalLink } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
@@ -68,11 +69,16 @@ export default async function AdminLayout({
       <header className="sticky top-0 z-40 border-b border-border bg-surface/80 backdrop-blur-xl">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-3">
           <div className="flex items-center gap-6">
-            <span className="font-display text-lg font-semibold">
-              <span className="text-foreground">pixo</span>
-              <span className="text-accent">raft</span>
-              <span className="ml-2 font-mono text-xs text-faint">admin</span>
-            </span>
+            <Link href="/admin" className="flex items-center gap-2">
+              <Image
+                src="/pixoraft_logo_header.png"
+                alt="Pixoraft"
+                width={62}
+                height={36}
+                className="h-8 w-auto"
+              />
+              <span className="font-mono text-xs text-faint">admin</span>
+            </Link>
             <nav className="hidden items-center gap-1 sm:flex">
               {ADMIN_NAV.map((item) => (
                 <Link
