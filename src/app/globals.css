@@ -111,6 +111,70 @@
   }
 }
 
+/* Moving blue glow behind the services cards. Uses the hero animation blues. */
+@keyframes glow-drift {
+  0% {
+    transform: translate3d(-8%, -6%, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(8%, 10%, 0) scale(1.25);
+  }
+  100% {
+    transform: translate3d(-8%, -6%, 0) scale(1);
+  }
+}
+
+.section-glow-a,
+.section-glow-b,
+.section-glow-c {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(90px);
+  will-change: transform;
+  pointer-events: none;
+}
+
+.section-glow-a {
+  background: radial-gradient(
+    circle,
+    #00a0ff 0%,
+    #04334f 55%,
+    transparent 100%
+  );
+  opacity: 0.45;
+  animation: glow-drift 16s ease-in-out infinite;
+}
+
+.section-glow-b {
+  background: radial-gradient(
+    circle,
+    #507083 0%,
+    #00a0ff 50%,
+    transparent 100%
+  );
+  opacity: 0.35;
+  animation: glow-drift 20s ease-in-out infinite reverse;
+}
+
+.section-glow-c {
+  background: radial-gradient(
+    circle,
+    #225879 0%,
+    #04334f 55%,
+    transparent 100%
+  );
+  opacity: 0.4;
+  animation: glow-drift 18s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section-glow-a,
+  .section-glow-b,
+  .section-glow-c {
+    animation: none;
+  }
+}
+
 /* Signature terminal cursor blink (readout motif) */
 @keyframes cursor-blink {
   0%,
