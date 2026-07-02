@@ -11,15 +11,14 @@ export function Hero() {
           canvas receives pointer events across the whole hero. */}
       <div className="absolute inset-0 z-0" aria-hidden="true">
         <FloatingLines
-          enabledWaves={["top", "middle", "bottom"]}
-          lineCount={[10, 15, 20]}
-          lineDistance={10}
-          bendRadius={6.5}
-          bendStrength={-0.5}
-          interactive={true}
-          parallax={true}
-          // gradientStart / gradientMid / gradientEnd map to linesGradient
           linesGradient={["#00a0ff", "#04334f", "#507083"]}
+          animationSpeed={1}
+          interactive
+          bendRadius={6.5}
+          bendStrength={-2}
+          mouseDamping={0.05}
+          parallax
+          parallaxStrength={0.2}
         />
         {/* Legibility overlay: keep copy readable over the animation */}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-background/40 via-background/20 to-background" />
