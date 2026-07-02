@@ -3,7 +3,12 @@
  * Kept here so layout and footer read from one typed source.
  */
 
-export type SocialPlatform = "instagram" | "linkedin" | "fiverr";
+export type SocialPlatform =
+  | "instagram"
+  | "linkedin"
+  | "fiverr"
+  | "freelancer"
+  | "upwork";
 
 export interface SocialLink {
   platform: SocialPlatform;
@@ -93,6 +98,16 @@ export const SITE: SiteConfig = {
       platform: "fiverr",
       label: "Fiverr",
       href: "https://www.fiverr.com/s/GzEdB67",
+    },
+    {
+      platform: "freelancer",
+      label: "Freelancer",
+      href: "https://www.freelancer.com/u/malikhassan30?frm=malikhassan30&sb=t",
+    },
+    {
+      platform: "upwork",
+      label: "Upwork",
+      href: "https://www.upwork.com/freelancers/~013786361f602816c9?mp_source=share",
     },
   ],
   phones: [
