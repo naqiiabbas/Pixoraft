@@ -22,3 +22,49 @@ export function buildFaqJsonLd(items: FaqEntry[]) {
     })),
   };
 }
+
+export function buildOrganizationJsonLd(input: {
+  socials: string[];
+  offices: Array<{ addressLines: string[] }>;
+  email: string;
+  phone: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": ["Organization", "ProfessionalService"],
+    name: "Pixoraft",
+    url: SITE_URL,
+    logo: `${SITE_URL}/pixoraft_favicon.png`,
+    image: `${SITE_URL}/pixoraft_favicon.png`,
+    description:
+      "Pixoraft designs, builds, and scales web platforms, mobile apps, and AI automation for businesses in Pakistan, the UK, and the US.",
+    email: input.email,
+    telephone: input.phone,
+    areaServed: ["PK", "GB", "US"],
+    sameAs: input.socials,
+    address: input.offices.map((office) => ({
+      "@type": "PostalAddress",
+      streetAddress: office.addressLines.join(", "),
+    })),
+  };
+}
+
+export interface BreadcrumbCrumb {
+  label: string;
+  href?: string;
+}
+
+const SITE_URL = "https://pixoraft.com";
+
+export function buildBreadcrumbJsonLd(crumbs: BreadcrumbCrumb[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: crumbs.map((crumb, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: crumb.label,
+      ...(crumb.href ? { item: `${SITE_URL}${crumb.href}` } : {}),
+    })),
+  };
+}

@@ -194,6 +194,17 @@
   filter: blur(40px);
 }
 
+/* Work case-study gradient covers (blue family, matches the theme) */
+.work-grad-1 {
+  background: linear-gradient(135deg, #00a0ff 0%, #04334f 55%, #0a0b0d 100%);
+}
+.work-grad-2 {
+  background: linear-gradient(135deg, #225879 0%, #04334f 55%, #0a0b0d 100%);
+}
+.work-grad-3 {
+  background: linear-gradient(135deg, #507083 0%, #00a0ff 45%, #0a0b0d 100%);
+}
+
 /* Code window syntax token colors */
 .code-key {
   color: var(--code-key);

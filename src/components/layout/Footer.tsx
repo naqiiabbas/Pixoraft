@@ -7,7 +7,7 @@ import { SERVICE_PILLARS } from "@/data/services";
 const YEAR = 2026;
 
 const COMPANY_LINKS = [
-  { label: "Work", href: "/work" },
+  { label: "Services", href: "/services" },
   { label: "Contact", href: "/contact" },
   { label: "Process", href: "/#process" },
   { label: "FAQ", href: "/#faq" },

@@ -5,6 +5,16 @@ import { ABOUT } from "@/data/about";
 import { CodeWindow } from "@/components/ui/CodeWindow";
 import { useMotion, IN_VIEW } from "@/lib/motion";
 
+const ABOUT_SNIPPET = `// pixoraft/ship.ts
+export async function ship(project: Project) {
+  const build = await bundle(project)
+  await deploy(build, {
+    regions: ["pk", "uk", "us"],
+    scale: "auto",
+  })
+  return { status: "live", uptime: "99.9%" }
+}`;
+
 export function About() {
   const { fadeUp, stagger } = useMotion();
 
@@ -87,7 +97,7 @@ export function About() {
             viewport={IN_VIEW}
             className="relative"
           >
-            <CodeWindow />
+            <CodeWindow filename="ship.ts" snippet={ABOUT_SNIPPET} />
           </motion.div>
         </div>
       </div>
