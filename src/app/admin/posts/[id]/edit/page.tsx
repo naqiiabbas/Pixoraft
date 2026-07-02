@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { getPostById } from "@/lib/posts";
 import { PostForm } from "../../PostForm";
+import { getInternalLinks } from "../../internal-links";
 
 export const dynamic = "force-dynamic";
 
@@ -14,6 +15,7 @@ export default async function EditPostPage({
   const { id } = await params;
   const post = await getPostById(id);
   if (!post) notFound();
+  const internalLinks = await getInternalLinks();
 
   return (
     <div>
@@ -28,7 +30,7 @@ export default async function EditPostPage({
         Edit post
       </h1>
       <div className="mt-8">
-        <PostForm post={post} />
+        <PostForm post={post} internalLinks={internalLinks} />
       </div>
     </div>
   );

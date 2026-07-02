@@ -1,9 +1,46 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Eye, Pencil, Trash2 } from "lucide-react";
+import {
+  Bold,
+  Code2,
+  Eye,
+  Heading2,
+  Italic,
+  Link2,
+  List,
+  Pencil,
+  Trash2,
+} from "lucide-react";
 import type { Post } from "@/lib/posts";
+
+export interface InternalLink {
+  label: string;
+  href: string;
+}
+
+function ToolbarButton({
+  label,
+  onClick,
+  children,
+}: {
+  label: string;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      title={label}
+      aria-label={label}
+      className="inline-flex h-8 w-8 items-center justify-center rounded-md text-muted transition-colors hover:bg-white/5 hover:text-foreground"
+    >
+      {children}
+    </button>
+  );
+}
 import { Markdown } from "@/components/ui/Markdown";
 import { ImageUpload } from "@/components/admin/ImageUpload";
 import { savePost, deletePost } from "./actions";
@@ -21,8 +58,18 @@ function autoSlug(input: string): string {
     .replace(/-+/g, "-");
 }
 
-export function PostForm({ post }: { post?: Post }) {
+export function PostForm({
+  post,
+  internalLinks = [],
+}: {
+  post?: Post;
+  internalLinks?: InternalLink[];
+}) {
   const router = useRouter();
+  const contentRef = useRef<HTMLTextAreaElement>(null);
+  const [linkOpen, setLinkOpen] = useState(false);
+  const [linkText, setLinkText] = useState("");
+  const [linkUrl, setLinkUrl] = useState("");
   const [title, setTitle] = useState(post?.title ?? "");
   const [slug, setSlug] = useState(post?.slug ?? "");
   const [slugEdited, setSlugEdited] = useState(!!post);
@@ -75,6 +122,65 @@ export function PostForm({ post }: { post?: Post }) {
     if (!post) return;
     if (!confirm("Delete this post? This cannot be undone.")) return;
     await deletePost(post.id);
+  }
+
+  // ----- Markdown editor helpers -----
+
+  function restoreSelection(start: number, end: number) {
+    requestAnimationFrame(() => {
+      const ta = contentRef.current;
+      if (!ta) return;
+      ta.focus();
+      ta.selectionStart = start;
+      ta.selectionEnd = end;
+    });
+  }
+
+  function surround(before: string, after = before) {
+    const ta = contentRef.current;
+    if (!ta) return;
+    const { selectionStart: s, selectionEnd: e } = ta;
+    const selected = content.slice(s, e) || "text";
+    const next =
+      content.slice(0, s) + before + selected + after + content.slice(e);
+    setContent(next);
+    restoreSelection(s + before.length, s + before.length + selected.length);
+  }
+
+  function prefixLine(prefix: string) {
+    const ta = contentRef.current;
+    if (!ta) return;
+    const { selectionStart: s } = ta;
+    const lineStart = content.lastIndexOf("\n", s - 1) + 1;
+    const next = content.slice(0, lineStart) + prefix + content.slice(lineStart);
+    setContent(next);
+    restoreSelection(s + prefix.length, s + prefix.length);
+  }
+
+  function openLinkDialog() {
+    const ta = contentRef.current;
+    const selected = ta ? content.slice(ta.selectionStart, ta.selectionEnd) : "";
+    setLinkText(selected);
+    setLinkUrl("");
+    setLinkOpen(true);
+  }
+
+  function insertLink() {
+    const url = linkUrl.trim();
+    if (!url) return;
+    const text = linkText.trim() || url;
+    const md = `[${text}](${url})`;
+    const ta = contentRef.current;
+    if (!ta) {
+      setContent(content + md);
+    } else {
+      const { selectionStart: s, selectionEnd: e } = ta;
+      setContent(content.slice(0, s) + md + content.slice(e));
+      restoreSelection(s + md.length, s + md.length);
+    }
+    setLinkOpen(false);
+    setLinkText("");
+    setLinkUrl("");
   }
 
   return (
@@ -143,12 +249,92 @@ export function PostForm({ post }: { post?: Post }) {
               )}
             </div>
           ) : (
-            <textarea
-              className={`${inputClass} min-h-[300px] resize-y font-mono text-xs`}
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              placeholder={"## Heading\n\nWrite in Markdown. Fenced ```code``` renders as a code window."}
-            />
+            <div className="rounded-xl border border-border bg-background">
+              {/* Toolbar */}
+              <div className="flex flex-wrap items-center gap-1 border-b border-border p-2">
+                <ToolbarButton label="Bold" onClick={() => surround("**")}>
+                  <Bold className="h-4 w-4" />
+                </ToolbarButton>
+                <ToolbarButton label="Italic" onClick={() => surround("*")}>
+                  <Italic className="h-4 w-4" />
+                </ToolbarButton>
+                <ToolbarButton label="Heading" onClick={() => prefixLine("## ")}>
+                  <Heading2 className="h-4 w-4" />
+                </ToolbarButton>
+                <ToolbarButton label="List item" onClick={() => prefixLine("- ")}>
+                  <List className="h-4 w-4" />
+                </ToolbarButton>
+                <ToolbarButton
+                  label="Inline code"
+                  onClick={() => surround("`")}
+                >
+                  <Code2 className="h-4 w-4" />
+                </ToolbarButton>
+                <ToolbarButton label="Insert link" onClick={openLinkDialog}>
+                  <Link2 className="h-4 w-4" />
+                </ToolbarButton>
+              </div>
+
+              {/* Link dialog */}
+              {linkOpen && (
+                <div className="space-y-3 border-b border-border bg-surface p-3">
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <input
+                      className={inputClass}
+                      placeholder="Link text"
+                      value={linkText}
+                      onChange={(e) => setLinkText(e.target.value)}
+                    />
+                    <input
+                      className={inputClass}
+                      placeholder="URL (https://... or /internal/path)"
+                      value={linkUrl}
+                      onChange={(e) => setLinkUrl(e.target.value)}
+                    />
+                  </div>
+                  {internalLinks.length > 0 && (
+                    <select
+                      className={inputClass}
+                      value=""
+                      onChange={(e) => {
+                        if (e.target.value) setLinkUrl(e.target.value);
+                      }}
+                    >
+                      <option value="">Or pick an internal page...</option>
+                      {internalLinks.map((l) => (
+                        <option key={l.href} value={l.href} className="bg-surface">
+                          {l.label} ({l.href})
+                        </option>
+                      ))}
+                    </select>
+                  )}
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
+                      onClick={insertLink}
+                      className="rounded-lg bg-accent px-4 py-2 text-xs font-semibold text-accent-contrast hover:bg-accent-strong"
+                    >
+                      Insert link
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setLinkOpen(false)}
+                      className="rounded-lg border border-border px-4 py-2 text-xs text-muted hover:text-foreground"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              <textarea
+                ref={contentRef}
+                className="min-h-[300px] w-full resize-y bg-transparent p-4 font-mono text-xs text-foreground outline-none"
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                placeholder={"## Heading\n\nWrite in Markdown. Use the link button for internal or external links. Fenced ```code``` renders as a code window."}
+              />
+            </div>
           )}
         </div>
 

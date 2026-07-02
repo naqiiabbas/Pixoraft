@@ -1,3 +1,4 @@
+import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { CodeWindow } from "@/components/ui/CodeWindow";
@@ -23,16 +24,29 @@ export function Markdown({ content }: { content: string }) {
             </h3>
           ),
           p: ({ children }) => <p className="mt-5">{children}</p>,
-          a: ({ children, href }) => (
-            <a
-              href={href}
-              className="text-accent underline underline-offset-2 hover:text-accent-strong"
-              target={href?.startsWith("http") ? "_blank" : undefined}
-              rel={href?.startsWith("http") ? "noopener noreferrer" : undefined}
-            >
-              {children}
-            </a>
-          ),
+          a: ({ children, href }) => {
+            const url = href ?? "";
+            const isInternal = url.startsWith("/");
+            const className =
+              "text-accent underline underline-offset-2 hover:text-accent-strong";
+            if (isInternal) {
+              return (
+                <Link href={url} className={className}>
+                  {children}
+                </Link>
+              );
+            }
+            return (
+              <a
+                href={url}
+                className={className}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {children}
+              </a>
+            );
+          },
           strong: ({ children }) => (
             <strong className="font-semibold text-foreground">{children}</strong>
           ),

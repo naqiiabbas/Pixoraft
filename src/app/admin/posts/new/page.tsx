@@ -1,8 +1,13 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { PostForm } from "../PostForm";
+import { getInternalLinks } from "../internal-links";
 
-export default function NewPostPage() {
+export const dynamic = "force-dynamic";
+
+export default async function NewPostPage() {
+  const internalLinks = await getInternalLinks();
+
   return (
     <div>
       <Link
@@ -16,7 +21,7 @@ export default function NewPostPage() {
         New post
       </h1>
       <div className="mt-8">
-        <PostForm />
+        <PostForm internalLinks={internalLinks} />
       </div>
     </div>
   );
