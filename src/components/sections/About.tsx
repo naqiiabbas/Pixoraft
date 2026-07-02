@@ -38,6 +38,7 @@ export function About() {
             initial="hidden"
             whileInView="visible"
             viewport={IN_VIEW}
+            className="min-w-0"
           >
             <motion.p
               variants={fadeUp}
@@ -95,7 +96,7 @@ export function About() {
             initial="hidden"
             whileInView="visible"
             viewport={IN_VIEW}
-            className="relative"
+            className="relative min-w-0"
           >
             <CodeWindow filename="ship.ts" snippet={ABOUT_SNIPPET} />
           </motion.div>

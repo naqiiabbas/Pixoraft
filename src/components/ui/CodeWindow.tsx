@@ -41,10 +41,10 @@ export function CodeWindow({ filename, snippet, accent }: CodeWindowProps) {
       </div>
 
       {/* Code body */}
-      <pre className="overflow-x-auto p-5 font-mono text-[13px] leading-relaxed">
-        <code className="block">
+      <pre className="max-w-full overflow-x-auto p-5 font-mono text-[13px] leading-relaxed">
+        <code className="block w-max min-w-full">
           {lines.map((line, i) => (
-            <span key={i} className="grid grid-cols-[2rem_1fr] gap-4">
+            <span key={i} className="grid grid-cols-[2rem_minmax(0,1fr)] gap-4">
               <span className="select-none text-right text-faint/60">
                 {i + 1}
               </span>
