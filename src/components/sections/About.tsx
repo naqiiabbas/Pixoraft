@@ -22,10 +22,11 @@ export function About() {
     <section
       id="about"
       aria-labelledby="about-heading"
-      className="relative overflow-hidden bg-black py-24 sm:py-32"
+      className="relative py-24 sm:py-32"
     >
-      {/* Moving blue glow (same treatment as other sections) */}
-      <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
+      {/* Moving blue glow (same treatment as other sections), un-clipped so it
+          bleeds across the section boundaries for a soft merge. */}
+      <div className="absolute inset-0" aria-hidden="true">
         <div className="section-glow-b absolute -left-[6%] top-[10%] h-[480px] w-[480px]" />
         <div className="section-glow-c absolute bottom-[4%] right-[2%] h-[460px] w-[460px]" />
       </div>

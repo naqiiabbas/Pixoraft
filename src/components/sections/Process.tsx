@@ -11,10 +11,11 @@ export function Process() {
     <section
       id="process"
       aria-labelledby="process-heading"
-      className="relative overflow-hidden bg-black py-24 sm:py-32"
+      className="relative py-24 sm:py-32"
     >
-      {/* Moving blue glow (same theme) */}
-      <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
+      {/* Moving blue glow (same theme), un-clipped so it bleeds across the
+          section boundaries for a soft merge. */}
+      <div className="absolute inset-0" aria-hidden="true">
         <div className="section-glow-b absolute left-[8%] top-[10%] h-[420px] w-[420px]" />
         <div className="section-glow-c absolute bottom-[8%] right-[6%] h-[460px] w-[460px]" />
       </div>

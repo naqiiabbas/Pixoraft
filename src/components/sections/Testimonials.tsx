@@ -40,10 +40,11 @@ export function Testimonials() {
     <section
       id="testimonials"
       aria-labelledby="testimonials-heading"
-      className="relative overflow-hidden bg-black py-24 sm:py-32"
+      className="relative py-24 sm:py-32"
     >
-      {/* Moving blue glow (same treatment as the services section) */}
-      <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
+      {/* Moving blue glow (same treatment as the services section), un-clipped
+          so it bleeds across the section boundaries for a soft merge. */}
+      <div className="absolute inset-0" aria-hidden="true">
         <div className="section-glow-c absolute left-1/2 top-1/3 h-[520px] w-[520px] -translate-x-1/2" />
         <div className="section-glow-a absolute bottom-[8%] right-[8%] h-[420px] w-[420px]" />
       </div>

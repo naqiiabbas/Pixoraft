@@ -13,10 +13,12 @@ export function Services() {
     <section
       id="services"
       aria-labelledby="services-heading"
-      className="relative overflow-hidden bg-black py-24 sm:py-32"
+      className="relative py-24 sm:py-32"
     >
-      {/* Moving blue glow behind the cards (hero animation blues) */}
-      <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
+      {/* Moving blue glow behind the cards (hero animation blues). Left
+          un-clipped so it bleeds into the neighbouring sections and the
+          section boundaries merge softly over the shared black canvas. */}
+      <div className="absolute inset-0" aria-hidden="true">
         <div className="section-glow-a absolute left-[6%] top-[18%] h-[460px] w-[460px]" />
         <div className="section-glow-b absolute bottom-[6%] right-[4%] h-[520px] w-[520px]" />
         <div className="section-glow-c absolute left-1/2 top-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2" />

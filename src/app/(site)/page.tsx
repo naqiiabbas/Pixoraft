@@ -12,7 +12,7 @@ export function generateMetadata() {
 
 export default function Home() {
   return (
-    <main className="flex-1">
+    <main className="relative flex-1 bg-black">
       <Hero />
       <Services />
       <About />

@@ -21,7 +21,7 @@ export function Hero() {
           parallaxStrength={0.2}
         />
         {/* Legibility overlay: keep copy readable over the animation */}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-background/40 via-background/20 to-background" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black" />
       </div>
 
       {/* Foreground content. pointer-events-none lets mouse movement pass
