@@ -99,7 +99,7 @@ export function About() {
             viewport={IN_VIEW}
             className="relative min-w-0"
           >
-            <CodeWindow filename="ship.ts" snippet={ABOUT_SNIPPET} />
+            <CodeWindow filename="ship.ts" snippet={ABOUT_SNIPPET} typewriter />
           </motion.div>
         </div>
       </div>
