@@ -24,7 +24,7 @@ export function Offices() {
       <div
         role="tablist"
         aria-label="Offices"
-        className="inline-flex flex-wrap gap-2 rounded-full border border-white/10 bg-white/5 p-1 backdrop-blur-md"
+        className="flex w-full flex-col gap-1.5 rounded-2xl border border-white/10 bg-white/5 p-1.5 backdrop-blur-md sm:inline-flex sm:w-auto sm:flex-row sm:gap-2 sm:rounded-full sm:p-1"
       >
         {OFFICES.map((office) => {
           const isActive = office.id === activeId;
@@ -35,7 +35,7 @@ export function Offices() {
               type="button"
               aria-selected={isActive}
               onClick={() => setActiveId(office.id)}
-              className={`rounded-full px-5 py-2 text-sm font-medium transition-colors ${
+              className={`w-full rounded-full px-5 py-2.5 text-center text-sm font-medium transition-colors sm:w-auto sm:py-2 ${
                 isActive
                   ? "bg-accent text-accent-contrast"
                   : "text-muted hover:text-foreground"
