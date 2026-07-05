@@ -4,6 +4,7 @@ import { About } from "@/components/sections/About";
 import { Process } from "@/components/sections/Process";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { FAQ } from "@/components/sections/FAQ";
+import { FloatingSocials } from "@/components/ui/FloatingSocials";
 import { resolveMetadata } from "@/lib/seo";
 
 export function generateMetadata() {
@@ -19,6 +20,7 @@ export default function Home() {
       <Process />
       <Testimonials />
       <FAQ />
+      <FloatingSocials />
     </main>
   );
 }

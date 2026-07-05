@@ -40,7 +40,7 @@ export function Testimonials() {
     <section
       id="testimonials"
       aria-labelledby="testimonials-heading"
-      className="relative py-24 sm:py-32"
+      className="relative overflow-x-clip py-24 sm:py-32"
     >
       {/* Moving blue glow (same treatment as the services section), un-clipped
           so it bleeds across the section boundaries for a soft merge. */}

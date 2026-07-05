@@ -13,7 +13,7 @@ export function Services() {
     <section
       id="services"
       aria-labelledby="services-heading"
-      className="relative py-24 sm:py-32"
+      className="relative overflow-x-clip py-24 sm:py-32"
     >
       {/* Moving blue glow behind the cards (hero animation blues). Left
           un-clipped so it bleeds into the neighbouring sections and the

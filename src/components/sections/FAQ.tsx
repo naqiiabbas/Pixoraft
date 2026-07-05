@@ -19,7 +19,7 @@ export function FAQ() {
     <section
       id="faq"
       aria-labelledby="faq-heading"
-      className="relative py-24 sm:py-32"
+      className="relative overflow-x-clip py-24 sm:py-32"
     >
       {/* FAQPage structured data, emitted from the same data source */}
       <script

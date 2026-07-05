@@ -22,7 +22,7 @@ export function About() {
     <section
       id="about"
       aria-labelledby="about-heading"
-      className="relative py-24 sm:py-32"
+      className="relative overflow-x-clip py-24 sm:py-32"
     >
       {/* Moving blue glow (same treatment as other sections), un-clipped so it
           bleeds across the section boundaries for a soft merge. */}
