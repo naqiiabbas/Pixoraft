@@ -49,9 +49,9 @@ function PageRow({
     <div className="rounded-2xl border border-border bg-surface p-6">
       <div className="flex items-center justify-between gap-4">
         <div>
-          <h2 className="font-display text-lg font-semibold text-foreground">
+          <h3 className="font-display text-lg font-semibold text-foreground">
             {page.label}
-          </h2>
+          </h3>
           <p className="font-mono text-xs text-faint">{page.path}</p>
         </div>
         <button
@@ -128,10 +128,35 @@ export function SeoManager({
   overrides: PageSeo[];
 }) {
   const map = new Map(overrides.map((o) => [o.path, o]));
+
+  // Group pages by their `group`, preserving first-seen order.
+  const groups: { name: string; items: ManagedPage[] }[] = [];
+  for (const page of pages) {
+    let group = groups.find((g) => g.name === page.group);
+    if (!group) {
+      group = { name: page.group, items: [] };
+      groups.push(group);
+    }
+    group.items.push(page);
+  }
+
   return (
-    <div className="space-y-5">
-      {pages.map((page) => (
-        <PageRow key={page.path} page={page} existing={map.get(page.path)} />
+    <div className="space-y-12">
+      {groups.map((group) => (
+        <section key={group.name}>
+          <h2 className="mb-4 font-mono text-sm text-accent">
+            [ {group.name} ]
+          </h2>
+          <div className="space-y-5">
+            {group.items.map((page) => (
+              <PageRow
+                key={page.path}
+                page={page}
+                existing={map.get(page.path)}
+              />
+            ))}
+          </div>
+        </section>
       ))}
     </div>
   );

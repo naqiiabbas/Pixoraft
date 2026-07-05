@@ -8,6 +8,7 @@ import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { CodeWindow } from "@/components/ui/CodeWindow";
 import { CTASection } from "@/components/sections/CTASection";
 import { buildServiceJsonLd } from "@/lib/schema";
+import { resolveMetadataFor } from "@/lib/seo";
 
 type Params = { pillar: string; sub: string };
 
@@ -25,11 +26,10 @@ export async function generateMetadata({
   const { pillar, sub } = await params;
   const found = getCapability(pillar, sub);
   if (!found) return {};
-  return {
-    title: found.capability.name,
+  return resolveMetadataFor(`/services/${pillar}/${sub}`, {
+    title: `${found.capability.name} | Pixoraft`,
     description: found.capability.description ?? found.capability.tagline,
-    alternates: { canonical: `/services/${pillar}/${sub}` },
-  };
+  });
 }
 
 export default async function SubServicePage({

@@ -8,6 +8,7 @@ import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { CodeWindow } from "@/components/ui/CodeWindow";
 import { CTASection } from "@/components/sections/CTASection";
 import { buildServiceJsonLd } from "@/lib/schema";
+import { resolveMetadataFor } from "@/lib/seo";
 
 type Params = { pillar: string };
 
@@ -23,11 +24,10 @@ export async function generateMetadata({
   const { pillar: slug } = await params;
   const pillar = getPillar(slug);
   if (!pillar) return {};
-  return {
-    title: pillar.title,
+  return resolveMetadataFor(`/services/${pillar.slug}`, {
+    title: `${pillar.title} | Pixoraft`,
     description: pillar.overview,
-    alternates: { canonical: `/services/${pillar.slug}` },
-  };
+  });
 }
 
 export default async function PillarPage({
